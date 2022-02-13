@@ -1,0 +1,153 @@
+{
+	"name": "quick-python-print",
+    "displayName": "Quick-Python-Print",
+    "description": "Quickly print out variables including tensor shape etc.",
+    "version": "0.1.0",
+    "publisher": "wwdok",
+    "author": {
+        "name": "Weida Wang"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wwdok/Quick-Python-Print"
+    },
+    "icon": "images/icon-128.png",
+    "engines": {
+        "vscode": "^1.64.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Debuggers",
+        "Machine Learning",
+        "Data Science"
+    ],
+    "keywords": [
+        "python",
+        "print",
+        "tensor",
+        "pytorch",
+        "tensoflow",
+        "paddlepaddle",
+        "numpy"
+    ],
+    "activationEvents": [
+        "onLanguage:python",
+        "onCommand:extension.python-print"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "python",
+                "aliases": [
+                    "Python",
+                    "Python3"
+                ],
+                "extensions": [
+                    ".py"
+                ]
+            }
+        ],
+        "commands": [
+            {
+                "command": "extension.python-print",
+                "title": "Print Python Selection"
+            },
+            {
+                "command": "extension.python-print-tensor-shape",
+                "title": "Print (Pytorch，TensorFlow, PaddlePaddle, Numpy) tensor shape"
+            },
+            {
+                "command": "extension.python-print-commentall",
+                "title": "Comment out all the print statements in current python file"
+            },
+            {
+                "command": "extension.python-print-commentup",
+                "title": "Comment out all the print statements above current cursor"
+            },
+            {
+                "command": "extension.python-print-commentdown",
+                "title": "Comment out all the print statements below current cursor"
+            },
+            {
+                "command": "extension.python-print-deleteall",
+                "title": "Delete all the print statements in current python file"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.python-print",
+                "key": "ctrl+shift+l",
+                "mac": "cmd+shift+l",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-tensor-shape",
+                "key": "ctrl+shift+o",
+                "mac": "cmd+shift+o",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-commentall",
+                "key": "ctrl+shift+/",
+                "mac": "cmd+shift+/",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-commentup",
+                "key": "ctrl+shift+up",
+                "mac": "cmd+shift+up",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-commentdown",
+                "key": "ctrl+shift+down",
+                "mac": "cmd+shift+down",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-deleteall",
+                "key": "ctrl+shift+r",
+                "mac": "cmd+shift+r",
+                "when": "editorTextFocus"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "print configuration",
+            "properties": {
+                "python-print.prefix": {
+                    "type": "string",
+                    "default": "==>> ",
+                    "description": "prefix in the front of the print out result"
+                },
+                "python-print.attribute1": {
+                    "type": "string",
+                    "default": "",
+                    "description": "variable attribute for ctrl+shift+l short cut"
+                },
+                "python-print.attribute2": {
+                    "type": "string",
+                    "default": ".shape",
+                    "description": "variable attribute for ctrl+shift+o short cut"
+                }
+            }
+        }
+    },
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.64.0",
+		"@types/node": "14.x",
+		"@typescript-eslint/eslint-plugin": "^5.9.1",
+		"@typescript-eslint/parser": "^5.9.1",
+		"eslint": "^8.6.0",
+		"typescript": "^4.5.4"
+	}
+}
