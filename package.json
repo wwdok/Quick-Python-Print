@@ -3,7 +3,7 @@
     "displayName": "Quick-Python-Print",
     "description": "Quickly print out variables including tensor shape etc.",
     "version": "0.1.0",
-    "publisher": "wwdok",
+    "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
     },
