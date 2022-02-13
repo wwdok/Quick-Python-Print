@@ -13,7 +13,7 @@ When i am learning deep learning model, i often want to know how the tensor shap
 
 ## Installation
 
-This extension is available for free in the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=wwdok.quick-python-print)
+This extension is available in the Visual Studio Code Extension Marketplace, you can search "Quick-Python-Print" and install it.
 
 ## How to use
 
