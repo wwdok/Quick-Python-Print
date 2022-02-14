@@ -31,7 +31,7 @@ const insertText = (text: string, moveCursor?: boolean) => {
     });
 };
 
-function handleInsertion(prefix:string, suffix:string) {
+function handleInsertion(prefix:string, suffix:string, mode:number) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened or cursor is not focused');
@@ -51,7 +51,12 @@ function handleInsertion(prefix:string, suffix:string) {
             const variableName = regexList[1];
             vscode.commands.executeCommand('editor.action.insertLineAfter')
             .then(() => {
-                const codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
+                let codeToInsert = '';
+                if (mode === 0) {
+                    codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
+                } else if (mode === 1) {
+                    codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
+                }
                 insertText(codeToInsert);
             });
         } else {
@@ -119,16 +124,22 @@ export function activate(context: vscode.ExtensionContext) {
     const prefix = vscode.workspace.getConfiguration().get('python-print.prefix');
     const attr1 = vscode.workspace.getConfiguration().get('python-print.attribute1');
     const attr2 = vscode.workspace.getConfiguration().get('python-print.attribute2');
+    const builtinfunc = vscode.workspace.getConfiguration().get('python-print.built-in-function');
 
     let disposable;
 
     disposable = vscode.commands.registerCommand('extension.python-print', () => {
-        handleInsertion(String(prefix), String(attr1));
+        handleInsertion(String(prefix), String(attr1), 0);
     });
     context.subscriptions.push(disposable);
 
     disposable = vscode.commands.registerCommand('extension.python-print-tensor-shape', () => {
-        handleInsertion(String(prefix), String(attr2));
+        handleInsertion(String(prefix), String(attr2), 0);
+    });
+    context.subscriptions.push(disposable);
+
+    disposable = vscode.commands.registerCommand('extension.python-print-built-in-function', () => {
+        handleInsertion(String(prefix), String(builtinfunc), 1);
     });
     context.subscriptions.push(disposable);
 

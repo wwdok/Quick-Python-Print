@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
     "description": "Quickly print out variables including tensor shape etc.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
@@ -58,6 +58,10 @@
                 "title": "Print (Pytorch，TensorFlow, PaddlePaddle, Numpy) tensor shape"
             },
             {
+                "command": "extension.python-print-built-in-function",
+                "title": "Print type of variable by default"
+            },
+            {
                 "command": "extension.python-print-commentall",
                 "title": "Comment out all the print statements in current python file"
             },
@@ -85,6 +89,12 @@
                 "command": "extension.python-print-tensor-shape",
                 "key": "ctrl+shift+o",
                 "mac": "cmd+shift+o",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-built-in-function",
+                "key": "ctrl+shift+t",
+                "mac": "cmd+shift+t",
                 "when": "editorTextFocus"
             },
             {
@@ -130,6 +140,11 @@
                     "type": "string",
                     "default": ".shape",
                     "description": "variable attribute for ctrl+shift+o short cut"
+                },
+                "python-print.built-in-function": {
+                    "type": "string",
+                    "default": "type",
+                    "description": "built-in funtion that can surround variable for ctrl+shift+t short cut"
                 }
             }
         }

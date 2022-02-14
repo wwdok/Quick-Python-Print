@@ -3,10 +3,11 @@
 This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhance some features:
 * Before press shortcuts, you can either select the variable or just put the cursor at target line.
 * Press `Ctrl+Shift+O` to print out tensor shape, e.g. `print("a.shape", a.shape)`.
+* Press `Ctrl+Shift+T` to print out variable type, e.g. `print("type(a)", type(a))`.
 * Move the cursor inside the bracket if insert simply `print()`.
 * Press `Ctrl+Shift+/` will comment out all print statement in current python file.
 * Press `Ctrl+Shift+R` will delete all print statements in current python file.
-* allow user to define custimized prefix and suffix of print content.
+* Allow user to define customized prefix and suffix of print content flexibly in extension settings.
 
 ## Motivation
 When i am learning deep learning model, i often want to know how the tensor shape changes along the way, i think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear etc` all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as i know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users.
@@ -17,9 +18,11 @@ This extension is available in the Visual Studio Code Extension Marketplace, you
 
 ## How to use
 
+Introduction video is coming soon ~
+
 This extension only activates within .py files
 
-#### Keyboard Shortcut
+### Keyboard Shortcut
 For Mac user, the `Ctrl` should be `Cmd`.
 
 **Ctrl+Shift+L**
@@ -38,9 +41,15 @@ If you didn't select variable or the extension can't recognize variable, it will
 
 **Ctrl+Shift+O**
 
-`Ctl+Shift+O` is similar to `Ctrl+Shift+L` except that it will print tensor shape:
+`Ctl+Shift+O` is similar to `Ctrl+Shift+L` except that it will print tensor shape by default:
 
 ![](images/Ctl+Shift+O.gif)
+
+**Ctrl+Shift+T**
+
+`Ctl+Shift+T` is similar to above except that it will print type of variable by default:
+
+![](images/Ctl+Shift+T.gif)
 
 **Ctrl+Shift+/**
 
@@ -72,11 +81,11 @@ Many deep learning framework all have `.shape` attribute of tensor:
 
 ![](images/execution.gif)
 
-If these shortcut interferes with another extension or system shortcut, you may change it in the `Keyboard Shortcuts Setting`.Press `Cmd+P` or `Ctrl+P` and type in `Open Keyboard Shortcuts`.Search for `>Print Python Selection` and click on the `pen icon`.This is where you can enter any `Shortcut` you choose.
+If these shortcut interferes with another extension or system shortcut, you may change it in the `Keyboard Shortcuts Setting`. Press `Cmd+P` or `Ctrl+P` and type in `Open Keyboard Shortcuts`. Search for `>Print Python Selection` and click on the `pen icon`. This is where you can enter any `Shortcut` you choose.
 
 ### Extension Settings
 
-This extension contributes the following settings, you can modify them to suit your preferences.
+This extension contributes the following settings:
 
 ```json
 "python-print.prefix": {
@@ -93,9 +102,17 @@ This extension contributes the following settings, you can modify them to suit y
     "type": "string",
     "default": ".shape",
     "description": "variable attribute for ctrl+shift+o short cut"
+},
+"python-print.built-in-function": {
+    "type": "string",
+    "default": "type",
+    "description": "built-in funtion that can surround variable for ctrl+shift+t short cut"
 }
 ```
-  
+You can modify them to suit your preferences. After modification, you need to restart vscode to make it take effect.
+
+![](images/setting.png)
+
 ## More
 I also make a pypi package : [printensor](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
 
