@@ -60,10 +60,15 @@ function handleInsertion(prefix:string, suffix:string, mode:number) {
                 insertText(codeToInsert);
             });
         } else {
-            vscode.commands.executeCommand('editor.action.insertLineAfter')
-            .then(() => {
+            // if current line is not empty, insert at next line, or just insert in current line
+            if (currentlineText.trim()) {
+                vscode.commands.executeCommand('editor.action.insertLineAfter')
+                .then(() => {
+                    insertText('print()', true);
+                });
+            } else {
                 insertText('print()', true);
-            });
+            }
         }
 
 

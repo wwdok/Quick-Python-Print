@@ -2,8 +2,8 @@
 
 This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhance some features:
 * Before press shortcuts, you can either select the variable or just put the cursor at target line.
-* Press `Ctrl+Shift+O` to print out tensor shape, e.g. `print("a.shape", a.shape)`.
-* Press `Ctrl+Shift+T` to print out variable type, e.g. `print("type(a)", type(a))`.
+* Press `Ctrl+Shift+O` to print out tensor shape, e.g. `print("==>> a.shape: ", a.shape)`.
+* Press `Ctrl+Shift+T` to print out variable type, e.g. `print("==>> type(a): ", type(a))`.
 * Move the cursor inside the bracket if insert simply `print()`.
 * Press `Ctrl+Shift+/` will comment out all print statement in current python file.
 * Press `Ctrl+Shift+R` will delete all print statements in current python file.
@@ -18,7 +18,7 @@ This extension is available in the Visual Studio Code Extension Marketplace, you
 
 ## How to use
 
-Introduction video is coming soon ~
+Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA)
 
 This extension only activates within .py files
 
@@ -81,7 +81,7 @@ Many deep learning framework all have `.shape` attribute of tensor:
 
 ![](images/execution.gif)
 
-If these shortcut interferes with another extension or system shortcut, you may change it in the `Keyboard Shortcuts Setting`. Press `Cmd+P` or `Ctrl+P` and type in `Open Keyboard Shortcuts`. Search for `>Print Python Selection` and click on the `pen icon`. This is where you can enter any `Shortcut` you choose.
+If any of these shortcuts conflicts with existing shortcut, you may change it in the `Keyboard Shortcuts Setting`: Press `Cmd+P` or `Ctrl+P` and type in `>Open Keyboard Shortcuts`. Search for the conflict shortcut, then you will find those shortcut using the same keys, then right click one of them, modify or delete keybinding.
 
 ### Extension Settings
 
@@ -114,7 +114,7 @@ You can modify them to suit your preferences. After modification, you need to re
 ![](images/setting.png)
 
 ## More
-I also make a pypi package : [printensor](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
+I also make a pypi package : [**printensor**](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
 
 ## Known issue
 This extension can not handle tensor that cross multiple lines, for example:
