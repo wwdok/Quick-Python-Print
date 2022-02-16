@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
     "description": "Quickly print out variable, variable type, tensor shape etc by using shortcuts",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
@@ -13,7 +13,7 @@
     },
     "icon": "images/icon-128.png",
     "engines": {
-        "vscode": "^1.60.0"
+        "vscode": "^1.63.0"
     },
     "categories": [
         "Programming Languages",
@@ -126,25 +126,56 @@
             "type": "object",
             "title": "print configuration",
             "properties": {
-                "python-print.prefix": {
+                "1.prefix": {
                     "type": "string",
                     "default": "==>> ",
-                    "description": "prefix in the front of the print out result"
+                    "description": "prefix in the front of the print out result",
+                    "order": 1
                 },
-                "python-print.attribute1": {
+                "2.attribute1": {
                     "type": "string",
                     "default": "",
-                    "description": "variable attribute for ctrl+shift+l short cut"
+                    "description": "variable attribute for Ctrl+Shift+L shortcut",
+                    "order": 2
                 },
-                "python-print.attribute2": {
+                "3.attribute2": {
                     "type": "string",
                     "default": ".shape",
-                    "description": "variable attribute for ctrl+shift+o short cut"
+                    "description": "variable attribute for Ctrl+Shift+O shortcut",
+                    "order": 3
                 },
-                "python-print.built-in-function": {
+                "4.built-in-function": {
                     "type": "string",
                     "default": "type",
-                    "description": "built-in funtion that can surround variable for ctrl+shift+t short cut"
+                    "description": "built-in funtion that can surround variable for Ctrl+Shift+T shortcut",
+                    "order": 4
+                },
+                "5.enable-colored-output-text": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "whether to enable color output text. Available text colors: red, green, yellow, blue, magenta, cyan, white.",
+                    "order": 5
+                },
+                "6.color-of-ctrl-shift-l": {
+                    "type": "string",
+                    "default": "green",
+                    "description": "output text color for Ctrl+Shift+L shortcut",
+                    "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"],
+                    "order": 6
+                },
+                "7.color-of-ctrl-shift-o": {
+                    "type": "string",
+                    "default": "yellow",
+                    "description": "output text color for Ctrl+Shift+O shortcut",
+                    "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"],
+                    "order": 7
+                },
+                "8.color-of-ctrl-shift-t": {
+                    "type": "string",
+                    "default": "blue",
+                    "description": "output text color for Ctrl+Shift+T shortcut",
+                    "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"],
+                    "order": 8
                 }
             }
         }

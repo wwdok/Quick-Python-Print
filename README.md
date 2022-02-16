@@ -8,19 +8,22 @@ This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Pytho
 * Press `Ctrl+Shift+/` will comment out all print statement in current python file.
 * Press `Ctrl+Shift+R` will delete all print statements in current python file.
 * Allow user to define customized prefix and suffix of print content flexibly in extension settings.
+* Able to output colored text in terminal by using python built-in package: `termcolor`.
 
 ## Motivation
+
 When i am learning deep learning model, i often want to know how the tensor shape changes along the way, i think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear etc` all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as i know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users.
 
 ## Installation
 
+Before installation, make sure your vscode version ≥ 1.63.0
 This extension is available in the Visual Studio Code Extension Marketplace, you can search "Quick-Python-Print" and install it.
 
 ## How to use
 
 Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA)
 
-This extension only activates within .py files
+This extension only activates within `.py` and `.ipynb` files
 
 ### Keyboard Shortcut
 For Mac user, the `Ctrl` should be `Cmd`.
@@ -85,33 +88,21 @@ If any of these shortcuts conflicts with existing shortcut, you may change it in
 
 ### Extension Settings
 
-This extension contributes the following settings:
+This extension has following settings:
 
-```json
-"python-print.prefix": {
-    "type": "string",
-    "default": "==>> ",
-    "description": "prefix in the front of the print out result"
-},
-"python-print.attribute1": {
-    "type": "string",
-    "default": "",
-    "description": "variable attribute for ctrl+shift+l short cut"
-},
-"python-print.attribute2": {
-    "type": "string",
-    "default": ".shape",
-    "description": "variable attribute for ctrl+shift+o short cut"
-},
-"python-print.built-in-function": {
-    "type": "string",
-    "default": "type",
-    "description": "built-in funtion that can surround variable for ctrl+shift+t short cut"
-}
-```
-You can modify them to suit your preferences. After modification, you need to restart vscode to make it take effect.
+![](images/setting1.png)
+![](images/setting2.png)
 
-![](images/setting.png)
+You can go to the `Extension Settings` to modify them to suit your preferences. After modification, you need to restart vscode to make it take effect.
+
+### Color output text
+To color the output text in terminal, you need to do these things:
+1. Go to `Extension Settings`, check the `5.enable-colored-output-text` to be true. And you can select the color you like from the drop-down list.
+2. Add `from termcolor import colored` in the python file
+3. Now Press `Ctrl+Shift+L` or `Ctrl+Shift+O` or `Ctrl+Shift+T` will insert the print statement that can color output text.
+4. Run Python File in Terminal.
+
+![](images/color-text.gif)
 
 ## More
 I also make a pypi package : [**printensor**](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.

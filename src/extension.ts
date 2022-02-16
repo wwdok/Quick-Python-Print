@@ -31,7 +31,7 @@ const insertText = (text: string, moveCursor?: boolean) => {
     });
 };
 
-function handleInsertion(prefix:string, suffix:string, mode:number) {
+function handleInsertion(prefix:string, suffix:string, mode:number, color?:string) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened or cursor is not focused');
@@ -45,7 +45,7 @@ function handleInsertion(prefix:string, suffix:string, mode:number) {
         const currentlineText = editor.document.lineAt(currentline).text;
 
         // find the variable name in current line
-        const regexList = currentlineText.match(/\s*(\w+)\s*=\s*/);
+        const regexList = currentlineText.match(/\s*(\w+)\s*=\s*/)  || currentlineText.match(/\s*(\w+)\s*\+=\s*/);
 
         if (regexList) {
             const variableName = regexList[1];
@@ -53,9 +53,17 @@ function handleInsertion(prefix:string, suffix:string, mode:number) {
             .then(() => {
                 let codeToInsert = '';
                 if (mode === 0) {
-                    codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
+                    if(color) {
+                        codeToInsert = `print(colored("${prefix}${variableName}${suffix}: ", "${color}"), ${variableName}${suffix})`;
+                    } else {
+                        codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
+                    }
                 } else if (mode === 1) {
-                    codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
+                    if(color) {
+                        codeToInsert = `print(colored("${prefix}${suffix}(${variableName}): ", "${color}"), ${suffix}(${variableName}))`;
+                    } else {
+                        codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
+                    }
                 }
                 insertText(codeToInsert);
             });
@@ -126,25 +134,41 @@ async function handleCommentOut(mode:string) {
 export function activate(context: vscode.ExtensionContext) {
     console.log('Quick Python Print is now active!');
 
-    const prefix = vscode.workspace.getConfiguration().get('python-print.prefix');
-    const attr1 = vscode.workspace.getConfiguration().get('python-print.attribute1');
-    const attr2 = vscode.workspace.getConfiguration().get('python-print.attribute2');
-    const builtinfunc = vscode.workspace.getConfiguration().get('python-print.built-in-function');
+    const prefix = vscode.workspace.getConfiguration().get('1.prefix');
+    const attr1 = vscode.workspace.getConfiguration().get('2.attribute1');
+    const attr2 = vscode.workspace.getConfiguration().get('3.attribute2');
+    const builtinfunc = vscode.workspace.getConfiguration().get('4.built-in-function');
+    const colortext = vscode.workspace.getConfiguration().get('5.enable-colored-output-text');
+    const color1 = vscode.workspace.getConfiguration().get('6.color-of-ctrl-shift-l');
+    const color2 = vscode.workspace.getConfiguration().get('7.color-of-ctrl-shift-o');
+    const color3 = vscode.workspace.getConfiguration().get('8.color-of-ctrl-shift-t');
 
     let disposable;
 
     disposable = vscode.commands.registerCommand('extension.python-print', () => {
-        handleInsertion(String(prefix), String(attr1), 0);
+        if (Boolean(colortext)) {
+            handleInsertion(String(prefix), String(attr1), 0, String(color1));
+        } else {
+            handleInsertion(String(prefix), String(attr1), 0);
+        }
     });
     context.subscriptions.push(disposable);
 
     disposable = vscode.commands.registerCommand('extension.python-print-tensor-shape', () => {
-        handleInsertion(String(prefix), String(attr2), 0);
+        if (Boolean(colortext)) {
+            handleInsertion(String(prefix), String(attr2), 0, String(color2));
+        } else {
+            handleInsertion(String(prefix), String(attr2), 0);
+        }
     });
     context.subscriptions.push(disposable);
 
     disposable = vscode.commands.registerCommand('extension.python-print-built-in-function', () => {
-        handleInsertion(String(prefix), String(builtinfunc), 1);
+        if (Boolean(colortext)) {
+            handleInsertion(String(prefix), String(builtinfunc), 1, String(color3));
+        } else {
+            handleInsertion(String(prefix), String(builtinfunc), 1);
+        }
     });
     context.subscriptions.push(disposable);
 
