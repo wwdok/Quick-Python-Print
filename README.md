@@ -10,7 +10,7 @@ This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Pytho
 * Allow user to define customized prefix and suffix of print content flexibly in extension settings.
 * Able to output colored text in terminal by using python built-in package: `termcolor`.
 
-If you find bug or have suggestion, welcome to post in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
+If you find bug or have feature request, you can check out the ChangeLog to see if this bug or feature had been fixed or added in latest version, if not welcome to post in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
 
 ## Motivation
 

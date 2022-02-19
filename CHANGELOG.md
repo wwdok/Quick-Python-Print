@@ -21,5 +21,10 @@
 
 ## [2022/2/19]
 0.1.4
-- Fix a bug when inserting with selection and Ctrl+Shift+T.
+- Downward compatible to vscode version 1.57.0.
+- Fix a bug when inserting with selection and `Ctrl+Shift+T`.
 - Monitor the change of configuration and make it take effect immediately, so you don't need to restart vscode.
+
+## [2022/2/19]
+0.1.5
+- Trim space besides selected variable.

@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
     "description": "Quickly print out variable, variable type, tensor shape etc by using shortcuts",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"

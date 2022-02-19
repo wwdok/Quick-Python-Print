@@ -82,7 +82,7 @@ function handleInsertion(prefix:string, suffix:string, mode:number, color?:strin
 
     } else {
         // With selection
-        let variableName = editor.document.getText(selection);
+        let variableName = editor.document.getText(selection).trim();
         vscode.commands.executeCommand('editor.action.insertLineAfter')
         .then(() => {
             // let codeToInsert = `print("${prefix}${text}${suffix}: ", ${text}${suffix})`;
