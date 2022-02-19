@@ -10,8 +10,6 @@ This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Pytho
 * Allow user to define customized prefix and suffix of print content flexibly in extension settings.
 * Able to output colored text in terminal by using python built-in package: `termcolor`.
 
-If you find bug or have suggestion, welcome to post in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
-
 ## Motivation
 
 When i am learning deep learning model, i often want to know how the tensor shape changes along the way, i think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear etc` all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as i know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users.
@@ -34,57 +32,57 @@ For Mac user, the `Ctrl` should be `Cmd`.
 
 Select the variable, then press `Ctrl+Shift+L`:
 
-![](images/Ctl+Shift+L-selection.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+L-selection.gif)
 
 You can also just put the cursor at the target line, then the extension will automatically recognize the variable:
 
-![](images/Ctl+Shift+L-NOselection.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+L-NOselection.gif)
 
 If you didn't select variable or the extension can't recognize variable, it will just insert simply print():
 
-![](images/Ctl+Shift+L-NOvariable.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+L-NOvariable.gif)
 
 **Ctrl+Shift+O**
 
 `Ctl+Shift+O` is similar to `Ctrl+Shift+L` except that it will print tensor shape by default:
 
-![](images/Ctl+Shift+O.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+O.gif)
 
 **Ctrl+Shift+T**
 
 `Ctl+Shift+T` is similar to above except that it will print type of variable by default:
 
-![](images/Ctl+Shift+T.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+T.gif)
 
 **Ctrl+Shift+/**
 
 Comment out all print statement in current python file:
 
-![](images/Ctl+Shift+forwardslash.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+forwardslash.gif)
 
 **Ctrl+Shift+up**
 
 Comment out all print statement above the cursor in current python file:
 
-![](images/Ctl+Shift+up.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+up.gif)
 
 **Ctrl+Shift+down**
 
 Comment out all print statement below the cursor in current python file:
 
-![](images/Ctl+Shift+down.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+down.gif)
 
 **Ctrl+Shift+R**
 
 Delete all print statement in current python file:
 
-![](images/Ctl+Shift+R.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/Ctl+Shift+R.gif)
 
 **Compatibility with different framework**
 
 Many deep learning framework all have `.shape` attribute of tensor:
 
-![](images/execution.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/execution.gif)
 
 If any of these shortcuts conflicts with existing shortcut, you may change it in the `Keyboard Shortcuts Setting`: Press `Cmd+P` or `Ctrl+P` and type in `>Open Keyboard Shortcuts`. Search for the conflict shortcut, then you will find those shortcut using the same keys, then right click one of them, modify or delete keybinding.
 
@@ -92,10 +90,10 @@ If any of these shortcuts conflicts with existing shortcut, you may change it in
 
 This extension has following settings:
 
-![](images/setting1.png)
-![](images/setting2.png)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/setting1.png)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/setting2.png)
 
-You can go to the `Extension Settings` to modify them to suit your preferences. After modification, it should take effect immediately.
+You can go to the `Extension Settings` to modify them to suit your preferences. After modification, you need to restart vscode to make it take effect.
 
 ### Color output text
 To color the output text in terminal, you need to do these things:
@@ -104,7 +102,7 @@ To color the output text in terminal, you need to do these things:
 3. Now Press `Ctrl+Shift+L` or `Ctrl+Shift+O` or `Ctrl+Shift+T` will insert the print statement that can color output text.
 4. Run Python File in Terminal.
 
-![](images/color-text.gif)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/color-text.gif)
 
 ## More
 I also make a pypi package : [**printensor**](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
@@ -124,9 +122,7 @@ This uses Python 3 syntax,If you're using Python 2 print isn't a function.You ca
 ## Donation
 If you find this extension can help you save time, and willing to donate me, i would be very grateful ! ❤
 
-🥤[Buy me a Coca-Cola](https://ko-fi.com/weidawang) 
-
-![](images/donation.png)
+![](https://github.com/wwdok/Quick-Python-Print/raw/HEAD/images/donation.png)
 
 ## License
 MIT License

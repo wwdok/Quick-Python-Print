@@ -1,13 +1,13 @@
 'use strict';
 import * as vscode from 'vscode';
 
-const insertText = (text: string, moveCursor?: boolean) => {
-    const editor = vscode.window.activeTextEditor;
+let insertText = (text: string, moveCursor?: boolean) => {
+    let editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened');
         return;
     }
-    const selection = editor.selection;
+    let selection = editor.selection;
 
     editor.edit((editBuilder) => editBuilder.insert(selection.start, text)).then(() => {
       if (moveCursor) {
@@ -20,7 +20,7 @@ const insertText = (text: string, moveCursor?: boolean) => {
 
         // Method 2 have 2 sub-methods, first one need get newselection, second one need calculate text length
         // Method 2-1:
-        // const newselection = editor.selection;
+        // let newselection = editor.selection;
         // var destPosition = new vscode.Position(newselection.start.line, newselection.start.character - 1);
         // Method 2-2:
         // var destPosition = new vscode.Position(selection.start.line, selection.start.character + text.length - 1);  // selection.start.character is indent
@@ -32,23 +32,23 @@ const insertText = (text: string, moveCursor?: boolean) => {
 };
 
 function handleInsertion(prefix:string, suffix:string, mode:number, color?:string) {
-    const editor = vscode.window.activeTextEditor;
+    let editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened or cursor is not focused');
         return;
     }
-    const selection = editor.selection;
+    let selection = editor.selection;
 
     if (selection.isEmpty) {
         // Without selection
-        const currentline = selection.start.line;
-        const currentlineText = editor.document.lineAt(currentline).text;
+        let currentline = selection.start.line;
+        let currentlineText = editor.document.lineAt(currentline).text;
 
         // find the variable name in current line
-        const regexList = currentlineText.match(/\s*(\w+)\s*=\s*/)  || currentlineText.match(/\s*(\w+)\s*\+=\s*/);
+        let regexList = currentlineText.match(/\s*(\w+)\s*=\s*/)  || currentlineText.match(/\s*(\w+)\s*\+=\s*/);
 
         if (regexList) {
-            const variableName = regexList[1];
+            let variableName = regexList[1];
             vscode.commands.executeCommand('editor.action.insertLineAfter')
             .then(() => {
                 let codeToInsert = '';
@@ -82,17 +82,31 @@ function handleInsertion(prefix:string, suffix:string, mode:number, color?:strin
 
     } else {
         // With selection
-        const text = editor.document.getText(selection);
+        let variableName = editor.document.getText(selection);
         vscode.commands.executeCommand('editor.action.insertLineAfter')
         .then(() => {
-            const codeToInsert = `print("${prefix}${text}${suffix}: ", ${text}${suffix})`;
+            // let codeToInsert = `print("${prefix}${text}${suffix}: ", ${text}${suffix})`;
+            let codeToInsert = '';
+            if (mode === 0) {
+                if(color) {
+                    codeToInsert = `print(colored("${prefix}${variableName}${suffix}: ", "${color}"), ${variableName}${suffix})`;
+                } else {
+                    codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
+                }
+            } else if (mode === 1) {
+                if(color) {
+                    codeToInsert = `print(colored("${prefix}${suffix}(${variableName}): ", "${color}"), ${suffix}(${variableName}))`;
+                } else {
+                    codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
+                }
+            }
             insertText(codeToInsert);
         });
     }
 };
 
 async function handleCommentOut(mode:string) {
-    const editor = vscode.window.activeTextEditor;
+    let editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('Can\'t comment out print() because no python file is opened or cursor is not focused');
         return;
@@ -134,14 +148,26 @@ async function handleCommentOut(mode:string) {
 export function activate(context: vscode.ExtensionContext) {
     console.log('Quick Python Print is now active!');
 
-    const prefix = vscode.workspace.getConfiguration().get('1.prefix');
-    const attr1 = vscode.workspace.getConfiguration().get('2.attribute1');
-    const attr2 = vscode.workspace.getConfiguration().get('3.attribute2');
-    const builtinfunc = vscode.workspace.getConfiguration().get('4.built-in-function');
-    const colortext = vscode.workspace.getConfiguration().get('5.enable-colored-output-text');
-    const color1 = vscode.workspace.getConfiguration().get('6.color-of-ctrl-shift-l');
-    const color2 = vscode.workspace.getConfiguration().get('7.color-of-ctrl-shift-o');
-    const color3 = vscode.workspace.getConfiguration().get('8.color-of-ctrl-shift-t');
+    let prefix = vscode.workspace.getConfiguration().get('1.prefix');
+    let attr1 = vscode.workspace.getConfiguration().get('2.attribute1');
+    let attr2 = vscode.workspace.getConfiguration().get('3.attribute2');
+    let builtinfunc = vscode.workspace.getConfiguration().get('4.built-in-function');
+    let colortext = vscode.workspace.getConfiguration().get('5.enable-colored-output-text');
+    let color1 = vscode.workspace.getConfiguration().get('6.color-of-ctrl-shift-l');
+    let color2 = vscode.workspace.getConfiguration().get('7.color-of-ctrl-shift-o');
+    let color3 = vscode.workspace.getConfiguration().get('8.color-of-ctrl-shift-t');
+
+    // monitor the configuration changes and update them
+    context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => {
+        prefix = vscode.workspace.getConfiguration().get('1.prefix');
+        attr1 = vscode.workspace.getConfiguration().get('2.attribute1');
+        attr2 = vscode.workspace.getConfiguration().get('3.attribute2');
+        builtinfunc = vscode.workspace.getConfiguration().get('4.built-in-function');
+        colortext = vscode.workspace.getConfiguration().get('5.enable-colored-output-text');
+        color1 = vscode.workspace.getConfiguration().get('6.color-of-ctrl-shift-l');
+        color2 = vscode.workspace.getConfiguration().get('7.color-of-ctrl-shift-o');
+        color3 = vscode.workspace.getConfiguration().get('8.color-of-ctrl-shift-t');
+    }));
 
     let disposable;
 
@@ -188,7 +214,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
 
     disposable = vscode.commands.registerCommand('extension.python-print-deleteall', async () => {
-        const editor = vscode.window.activeTextEditor;
+        let editor = vscode.window.activeTextEditor;
         if (!editor) {
             vscode.window.showErrorMessage('Can\'t delete print() because no python file is opened or cursor is not focused');
             return;

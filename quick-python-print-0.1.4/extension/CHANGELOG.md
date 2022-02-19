@@ -18,8 +18,3 @@
 0.1.3
 - Able to output colored text in terminal by using python built-in package: `termcolor`.
 - Add the ability to automatically recognize variable before `+=`.
-
-## [2022/2/19]
-0.1.4
-- Fix a bug when inserting with selection and Ctrl+Shift+T.
-- Monitor the change of configuration and make it take effect immediately, so you don't need to restart vscode.
