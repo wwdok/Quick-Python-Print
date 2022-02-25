@@ -1,29 +1,30 @@
 # Quick Python Print
 
 This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhance some features:
-* Before press shortcuts, you can either select the variable or just put the cursor at target line.
+* You can put the cursor at target line, the extension will automatically recognize the variable in the line.
 * Press `Ctrl+Shift+O` to print out tensor shape, e.g. `print("==>> a.shape: ", a.shape)`.
 * Press `Ctrl+Shift+T` to print out variable type, e.g. `print("==>> type(a): ", type(a))`.
+* Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing separator line.
 * Move the cursor inside the bracket if insert simply `print()`.
-* Press `Ctrl+Shift+/` will comment out all print statement in current python file.
-* Press `Ctrl+Shift+R` will delete all print statements in current python file.
+* Press `Ctrl+Shift+/` to comment out or uncomment all print statement in the scope.
+* Press `Ctrl+Shift+R` to delete all print statements in the scope.
 * Allow user to define customized prefix and suffix of print content flexibly in extension settings.
 * Able to output colored text in terminal by using python built-in package: `termcolor`.
 
-If you find bug or have feature request, you can check out the ChangeLog to see if this bug or feature had been fixed or added in latest version, if not welcome to post in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
+If you find bug or have feature request, you can check out the ChangeLog to see if this bug or feature had been fixed or added in latest version, if not, welcome to post in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
 
 ## Motivation
 
-When i am learning deep learning model, i often want to know how the tensor shape changes along the way, i think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear etc` all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as i know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users.
+When I am learning deep learning model, I often want to know how the tensor shape changes along the way, I think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear etc` all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as I know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users, afterwards, I add more features to make it also useful for other python developer.
 
 ## Installation
 
-Before installation, make sure your vscode version ≥ 1.63.0
+Before installation, make sure your vscode version ≥ 1.57.0.
 This extension is available in the Visual Studio Code Extension Marketplace, you can search "Quick-Python-Print" and install it.
 
 ## How to use
 
-Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA)
+Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA) (When I made this video, it was version 0.1.1, and there have been many changes in the current version)
 
 This extension only activates within `.py` and `.ipynb` files
 
@@ -32,7 +33,7 @@ For Mac user, the `Ctrl` should be `Cmd`.
 
 **Ctrl+Shift+L**
 
-Select the variable, then press `Ctrl+Shift+L`:
+Select the variable, then press `Ctrl+Shift+L`, it will insert print statement at next line:
 
 ![](images/Ctl+Shift+L-selection.gif)
 
@@ -40,7 +41,7 @@ You can also just put the cursor at the target line, then the extension will aut
 
 ![](images/Ctl+Shift+L-NOselection.gif)
 
-If you didn't select variable or the extension can't recognize variable, it will just insert simply print():
+If you didn't select variable or the extension can't recognize variable, it will just insert simply print() and move the cursor inside it. If selected variable is new defined for the first time, insert code at current line :
 
 ![](images/Ctl+Shift+L-NOvariable.gif)
 
@@ -58,25 +59,31 @@ If you didn't select variable or the extension can't recognize variable, it will
 
 **Ctrl+Shift+/**
 
-Comment out all print statement in current python file:
+Comment out or uncomment the print statement in the python file or in the selected scope:
 
 ![](images/Ctl+Shift+forwardslash.gif)
 
 **Ctrl+Shift+up**
 
-Comment out all print statement above the cursor in current python file:
+Comment out all print statement above the cursor in the python file:
 
 ![](images/Ctl+Shift+up.gif)
 
 **Ctrl+Shift+down**
 
-Comment out all print statement below the cursor in current python file:
+Comment out all print statement below the cursor in the python file:
 
 ![](images/Ctl+Shift+down.gif)
 
+**Ctrl+Shift+;**
+
+Insert a print statement that will print 50 `-` to become a delimiter like `--------------------------------------------------`:
+
+![](images/Ctl+Shift+;.gif)
+
 **Ctrl+Shift+R**
 
-Delete all print statement in current python file:
+Delete all the print statement(include those commented) in the python file or in the selected scope::
 
 ![](images/Ctl+Shift+R.gif)
 

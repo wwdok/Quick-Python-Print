@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
     "description": "Quickly print out variable, variable type, tensor shape etc by using shortcuts",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
@@ -51,31 +51,35 @@
         "commands": [
             {
                 "command": "extension.python-print",
-                "title": "Print Python Selection"
+                "title": "Print variable purely"
             },
             {
                 "command": "extension.python-print-tensor-shape",
                 "title": "Print (Pytorch，TensorFlow, PaddlePaddle, Numpy) tensor shape by default"
             },
             {
-                "command": "extension.python-print-built-in-function",
+                "command": "extension.python-print-function",
                 "title": "Print type of variable by default"
             },
             {
                 "command": "extension.python-print-commentall",
-                "title": "Comment out all the print statements in current python file"
+                "title": "Comment out all print statements in target scope"
             },
             {
                 "command": "extension.python-print-commentup",
-                "title": "Comment out all the print statements above current cursor"
+                "title": "Comment out all print statements above the cursor"
             },
             {
                 "command": "extension.python-print-commentdown",
-                "title": "Comment out all the print statements below current cursor"
+                "title": "Comment out all print statements below the cursor"
             },
             {
                 "command": "extension.python-print-deleteall",
-                "title": "Delete all the print statements in current python file"
+                "title": "Delete all print statements in target scope"
+            },
+            {
+                "command": "extension.python-print-delimiter",
+                "title": "Add delimiter line"
             }
         ],
         "keybindings": [
@@ -92,7 +96,7 @@
                 "when": "editorTextFocus"
             },
             {
-                "command": "extension.python-print-built-in-function",
+                "command": "extension.python-print-function",
                 "key": "ctrl+shift+t",
                 "mac": "cmd+shift+t",
                 "when": "editorTextFocus"
@@ -120,6 +124,12 @@
                 "key": "ctrl+shift+r",
                 "mac": "cmd+shift+r",
                 "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.python-print-delimiter",
+                "key": "ctrl+shift+;",
+                "mac": "cmd+shift+;",
+                "when": "editorTextFocus"
             }
         ],
         "configuration": {
@@ -141,32 +151,48 @@
                     "default": ".shape",
                     "description": "variable attribute for Ctrl+Shift+O shortcut"
                 },
-                "4.built-in-function": {
+                "4.function": {
                     "type": "string",
                     "default": "type",
-                    "description": "built-in funtion that can surround variable for Ctrl+Shift+T shortcut"
+                    "description": "funtion that can pass in variable for Ctrl+Shift+T shortcut"
                 },
-                "5.enable-colored-output-text": {
+                "5.1.enable colored output text": {
                     "type": "boolean",
                     "default": false,
-                    "description": "whether to enable color output text. Available text colors: red, green, yellow, blue, magenta, cyan, white."
+                    "description": "whether to enable color output text."
                 },
-                "6.color-of-ctrl-shift-l": {
+                "5.2.color for ctrl shift l": {
                     "type": "string",
                     "default": "green",
-                    "description": "output text color for Ctrl+Shift+L shortcut",
+                    "description": "color of output text for Ctrl+Shift+L shortcut",
                     "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
                 },
-                "7.color-of-ctrl-shift-o": {
+                "5.3.color for ctrl shift o": {
                     "type": "string",
                     "default": "yellow",
-                    "description": "output text color for Ctrl+Shift+O shortcut",
+                    "description": "color of output text for Ctrl+Shift+O shortcut",
                     "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
                 },
-                "8.color-of-ctrl-shift-t": {
+                "5.4.color for ctrl shift t": {
                     "type": "string",
                     "default": "blue",
-                    "description": "output text color for Ctrl+Shift+T shortcut",
+                    "description": "color of output text for Ctrl+Shift+T shortcut",
+                    "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
+                },
+                "6.1.delimiter symbol for ctrl shift ;": {
+                    "type": "string",
+                    "default": "-",
+                    "description": "delimiter symbol for Ctrl+Shift+; shortcut"
+                },
+                "6.2.delimiter length for ctrl shift ;": {
+                    "type": "number",
+                    "default": 50,
+                    "description": "number of delimiter symbol for Ctrl+Shift+; shortcut"
+                },
+                "6.3.delimiter color for ctrl shift ;": {
+                    "type": "string",
+                    "default": "white",
+                    "description": "color of output text for Ctrl+Shift+; shortcut",
                     "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
                 }
             }

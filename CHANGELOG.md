@@ -28,3 +28,11 @@
 ## [2022/2/19]
 0.1.5
 - Trim space besides selected variable.
+
+## [2022/2/27]
+0.1.6
+- If selected variable is new defined for the first time, insert code at current line.
+- If select multiple lines of code, press `Ctrl+Shift+/` will only comment out print statements inside the selected scope instead of all of print statements in the file. The same to `Ctrl+Shift+R`.
+- `Ctrl+Shift+/` can both comment and uncomment print statement depend whether the print statement have `# ` or not.
+- Add new shortcut:`Ctrl+Shift+;` which will insert `print("".center(50, "-"))` used for printing separator line.
+- `Ctrl+Shift+R` will delete entire line, not just clean the content of the line, and it can recognize those code which start with `print(`, `# print(`,`prints(`,`# prints(` and delete them.

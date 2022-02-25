@@ -1,10 +1,35 @@
 'use strict';
 import * as vscode from 'vscode';
 
+function getInsertCode(mode:number, variableName:string, prefix:string, suffix:string, color?:string) {
+    let codeToInsert = '';
+    if (mode === 0) {
+        if(color) {
+            codeToInsert = `print(colored("${prefix}${variableName}${suffix}: ", "${color}"), ${variableName}${suffix})`;
+        } else {
+            codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
+        }
+    } else if (mode === 1) {
+        if(color) {
+            codeToInsert = `print(colored("${prefix}${suffix}(${variableName}): ", "${color}"), ${suffix}(${variableName}))`;
+        } else {
+            codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
+        }
+    }
+    else if (mode === 2) {
+        if(color) {
+            codeToInsert = `print(colored("${variableName}".center(${prefix}, "${suffix}"), "${color}"))`;
+        } else {
+            codeToInsert = `print("${variableName}".center(${prefix}, "${suffix}"))`;
+        }
+    }
+    return codeToInsert;
+}
+
 let insertText = (text: string, moveCursor?: boolean) => {
     let editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened');
+        vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened or cursor is not focused');
         return;
     }
     let selection = editor.selection;
@@ -51,20 +76,7 @@ function handleInsertion(prefix:string, suffix:string, mode:number, color?:strin
             let variableName = regexList[1];
             vscode.commands.executeCommand('editor.action.insertLineAfter')
             .then(() => {
-                let codeToInsert = '';
-                if (mode === 0) {
-                    if(color) {
-                        codeToInsert = `print(colored("${prefix}${variableName}${suffix}: ", "${color}"), ${variableName}${suffix})`;
-                    } else {
-                        codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
-                    }
-                } else if (mode === 1) {
-                    if(color) {
-                        codeToInsert = `print(colored("${prefix}${suffix}(${variableName}): ", "${color}"), ${suffix}(${variableName}))`;
-                    } else {
-                        codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
-                    }
-                }
+                const codeToInsert = getInsertCode(mode, variableName, prefix, suffix, color);
                 insertText(codeToInsert);
             });
         } else {
@@ -78,30 +90,22 @@ function handleInsertion(prefix:string, suffix:string, mode:number, color?:strin
                 insertText('print()', true);
             }
         }
-
-
     } else {
         // With selection
-        let variableName = editor.document.getText(selection).trim();
-        vscode.commands.executeCommand('editor.action.insertLineAfter')
-        .then(() => {
-            // let codeToInsert = `print("${prefix}${text}${suffix}: ", ${text}${suffix})`;
-            let codeToInsert = '';
-            if (mode === 0) {
-                if(color) {
-                    codeToInsert = `print(colored("${prefix}${variableName}${suffix}: ", "${color}"), ${variableName}${suffix})`;
-                } else {
-                    codeToInsert = `print("${prefix}${variableName}${suffix}: ", ${variableName}${suffix})`;
-                }
-            } else if (mode === 1) {
-                if(color) {
-                    codeToInsert = `print(colored("${prefix}${suffix}(${variableName}): ", "${color}"), ${suffix}(${variableName}))`;
-                } else {
-                    codeToInsert = `print("${prefix}${suffix}(${variableName}): ", ${suffix}(${variableName}))`;
-                }
-            }
-            insertText(codeToInsert);
-        });
+        const variableName = editor.document.getText(selection).trim();
+        const linecontent = editor.document.lineAt(selection.start.line).text.trim();
+        // If selected variable is new defined for the first time, insert code at current line, or insert at next line
+        if(variableName === linecontent) {
+            const codeToInsert = getInsertCode(mode, variableName, prefix, suffix, color);
+            // replace the selected text with codeToInsert
+            editor.edit((editBuilder) => editBuilder.replace(selection, codeToInsert));
+        } else {
+            vscode.commands.executeCommand('editor.action.insertLineAfter')
+            .then(() => {
+                const codeToInsert = getInsertCode(mode, variableName, prefix, suffix, color);
+                insertText(codeToInsert);
+            });
+        }
     }
 };
 
@@ -111,36 +115,53 @@ async function handleCommentOut(mode:string) {
         vscode.window.showErrorMessage('Can\'t comment out print() because no python file is opened or cursor is not focused');
         return;
     }
-    let totalCount = editor.document.lineCount;
-    let start;
-    let end;
-    switch (mode) {
-        case 'all':
-            start = 0;
-            end = totalCount;
-            break;
-        case 'up':
-            start = 0;
-            end = editor.selection.start.line;
-            break;
-        case 'down':
-            start = editor.selection.end.line;
-            end = totalCount;
-            break;
-        default:
-            start = 0;
-            end = totalCount;
-            break;
+    let start, end;
+    let selection = editor.selection;
+    if (selection.isEmpty) {
+        let totalCount = editor.document.lineCount;
+        switch (mode) {
+            case 'all':
+                start = 0;
+                end = totalCount;
+                break;
+            case 'up':
+                start = 0;
+                end = editor.selection.start.line;
+                break;
+            case 'down':
+                start = editor.selection.end.line;
+                end = totalCount;
+                break;
+            default:
+                start = 0;
+                end = totalCount;
+                break;
+        }
+    } else {
+        start = editor.selection.start.line;
+        end = editor.selection.end.line;
     }
-    // comment the print() line
-    for (let i = start; i < end; i++) {
+    
+    for (let i = start; i < end+1; i++) {
         let line = editor.document.lineAt(i);
-        if (line.text.trim().startsWith("print(")) {
+        // comment the line
+        if (line.text.trim().startsWith("print(") || line.text.trim().startsWith("prints(")) {
             // comment out this line
             // why use await, see:https://github.com/Microsoft/vscode/issues/9874#issuecomment-235769379
             await editor.edit(editBuilder => {
-                editBuilder.insert(line.range.start, '# ');
+                // get the indent position
+                const indent = line.firstNonWhitespaceCharacterIndex;
+                const p = new vscode.Position(i, indent);
+                editBuilder.insert(p, '# ');
             });
+        } else if (line.text.trim().startsWith("# print(") || line.text.trim().startsWith("# prints(")) {
+            // uncomment out the line
+            await editor.edit(editBuilder => {
+                const indent = line.firstNonWhitespaceCharacterIndex;
+                let toDeleteRange = new vscode.Range(line.range.start.translate(0,indent), line.range.start.translate(0, indent+2));
+                editBuilder.delete(toDeleteRange);
+            }
+            );
         }
     }
 }
@@ -151,22 +172,28 @@ export function activate(context: vscode.ExtensionContext) {
     let prefix = vscode.workspace.getConfiguration().get('1.prefix');
     let attr1 = vscode.workspace.getConfiguration().get('2.attribute1');
     let attr2 = vscode.workspace.getConfiguration().get('3.attribute2');
-    let builtinfunc = vscode.workspace.getConfiguration().get('4.built-in-function');
-    let colortext = vscode.workspace.getConfiguration().get('5.enable-colored-output-text');
-    let color1 = vscode.workspace.getConfiguration().get('6.color-of-ctrl-shift-l');
-    let color2 = vscode.workspace.getConfiguration().get('7.color-of-ctrl-shift-o');
-    let color3 = vscode.workspace.getConfiguration().get('8.color-of-ctrl-shift-t');
+    let builtinfunc = vscode.workspace.getConfiguration().get('4.function');
+    let colortext = vscode.workspace.getConfiguration().get('5.1.enable colored output text');
+    let color1 = vscode.workspace.getConfiguration().get('5.2.color for ctrl shift l');
+    let color2 = vscode.workspace.getConfiguration().get('5.3.color for ctrl shift o');
+    let color3 = vscode.workspace.getConfiguration().get('5.4.color for ctrl shift t');
+    let delimierSymbol = vscode.workspace.getConfiguration().get('6.1.delimiter symbol for ctrl shift ;');
+    let delimierLength = vscode.workspace.getConfiguration().get('6.2.delimiter length for ctrl shift ;');
+    let delimierColor = vscode.workspace.getConfiguration().get('6.3.delimiter color for ctrl shift ;');
 
     // monitor the configuration changes and update them
     context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => {
         prefix = vscode.workspace.getConfiguration().get('1.prefix');
         attr1 = vscode.workspace.getConfiguration().get('2.attribute1');
         attr2 = vscode.workspace.getConfiguration().get('3.attribute2');
-        builtinfunc = vscode.workspace.getConfiguration().get('4.built-in-function');
-        colortext = vscode.workspace.getConfiguration().get('5.enable-colored-output-text');
-        color1 = vscode.workspace.getConfiguration().get('6.color-of-ctrl-shift-l');
-        color2 = vscode.workspace.getConfiguration().get('7.color-of-ctrl-shift-o');
-        color3 = vscode.workspace.getConfiguration().get('8.color-of-ctrl-shift-t');
+        builtinfunc = vscode.workspace.getConfiguration().get('4.function');
+        colortext = vscode.workspace.getConfiguration().get('5.1.enable colored output text');
+        color1 = vscode.workspace.getConfiguration().get('5.2.color for ctrl shift l');
+        color2 = vscode.workspace.getConfiguration().get('5.3.color for ctrl shift o');
+        color3 = vscode.workspace.getConfiguration().get('5.4.color for ctrl shift t');
+        delimierSymbol = vscode.workspace.getConfiguration().get('6.1.delimiter symbol for ctrl shift ;');
+        delimierLength = vscode.workspace.getConfiguration().get('6.2.delimiter length for ctrl shift ;');
+        delimierColor = vscode.workspace.getConfiguration().get('6.3.delimiter color for ctrl shift ;');
     }));
 
     let disposable;
@@ -189,7 +216,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
     context.subscriptions.push(disposable);
 
-    disposable = vscode.commands.registerCommand('extension.python-print-built-in-function', () => {
+    disposable = vscode.commands.registerCommand('extension.python-print-function', () => {
         if (Boolean(colortext)) {
             handleInsertion(String(prefix), String(builtinfunc), 1, String(color3));
         } else {
@@ -219,17 +246,51 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showErrorMessage('Can\'t delete print() because no python file is opened or cursor is not focused');
             return;
         }
-        let totalCount = editor.document.lineCount;
-        // delete all the print() line
-        for (let i = 0; i < totalCount; i++) {
-            let line = editor.document.lineAt(i);
-            if (line.text.trim().startsWith("print(")) {
-                // delete this line
-                await editor.edit(editBuilder => {
-                    editBuilder.delete(line.range);
-                });
+        let start, end;
+        let selection = editor.selection;
+        if (selection.isEmpty) {
+            start = 0;
+            end = editor.document.lineCount-1;  // the lineCount start from 1, so minus 1
+        } else {
+            start = editor.selection.start.line;
+            end = editor.selection.end.line;
+        }
+        // array to store the lines to be deleted
+        let linesToDelete:number[] = [];
+        for (let i = start; i < end+1; i++) {  // the for loop will not reach end, so plus 1
+            const line = editor.document.lineAt(i);
+            const lineText = line.text.trim();
+            console.log("lineText: " + lineText);
+            if (lineText.startsWith("print(") || lineText.startsWith("# print(") || lineText.startsWith("prints(") || lineText.startsWith("# prints(")) {
+                linesToDelete.push(line.lineNumber);
             }
         }
+        console.log("linesToDelete", linesToDelete);
+        // delete all the lines indexed by the array
+        for (let i = 0; i < linesToDelete.length; i++) {
+            const line = editor.document.lineAt(linesToDelete[i]-i);  // Every time a row is deleted, the index is decremented by one
+            await editor.edit(editBuilder => {
+                editBuilder.delete(line.rangeIncludingLineBreak);
+            });
+        }
+    });
+    context.subscriptions.push(disposable);
+
+    disposable = vscode.commands.registerCommand('extension.python-print-delimiter', () => {
+        let editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('Can\'t insert separator because no python file is opened or cursor is not focused');
+            return;
+        }
+        let selection = editor.selection;
+        let codeToInsert = "";
+        const v:string = "";
+        if (Boolean(colortext)) {
+            codeToInsert = getInsertCode(2, v, String(delimierLength), String(delimierSymbol), String(delimierColor));
+        } else {
+            codeToInsert = getInsertCode(2, v, String(delimierLength), String(delimierSymbol));
+        }
+        editor.edit((editBuilder) => editBuilder.insert(selection.start, codeToInsert));
     });
     context.subscriptions.push(disposable);
 }
