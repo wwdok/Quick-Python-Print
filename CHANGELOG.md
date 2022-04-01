@@ -36,3 +36,9 @@
 - `Ctrl+Shift+/` can both comment and uncomment print statement depend whether the print statement have `# ` or not.
 - Add new shortcut:`Ctrl+Shift+;` which will insert `print("".center(50, "-"))` used for printing separator line.
 - `Ctrl+Shift+R` will delete entire line, not just clean the content of the line, and it can recognize those code which start with `print(`, `# print(`,`prints(`,`# prints(` and delete them.
+
+## [2022/4/2]
+0.1.7
+- Add the ability to recognize variables that were uppacked from tuple,list etc.
+- Change the default operation of `ctrl shift /` without selection from toggle comment to comment out all of those uncomment print statements.
+- Allow user to set customized suffix, like`:\n` by default. 

@@ -1,13 +1,14 @@
 # Quick Python Print
 
-This repo is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhance some features:
+## Intro 
+This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhances some features:
 * You can put the cursor at target line, the extension will automatically recognize the variable in the line.
-* Press `Ctrl+Shift+O` to print out tensor shape, e.g. `print("==>> a.shape: ", a.shape)`.
-* Press `Ctrl+Shift+T` to print out variable type, e.g. `print("==>> type(a): ", type(a))`.
-* Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing separator line.
+* Press `Ctrl+Shift+O` to print out tensor shape by default, e.g. `print("==>> a.shape: ", a.shape)`.
+* Press `Ctrl+Shift+T` to print out variable type by default, e.g. `print("==>> type(a): ", type(a))`.
+* Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing delimiter line.
 * Move the cursor inside the bracket if insert simply `print()`.
-* Press `Ctrl+Shift+/` to comment out or uncomment all print statement in the scope.
-* Press `Ctrl+Shift+R` to delete all print statements in the scope.
+* Press `Ctrl+Shift+/` to comment out or uncomment all print statement inside the selection or in the file.
+* Press `Ctrl+Shift+R` to delete all print statements inside the selection or in the file.
 * Allow user to define customized prefix and suffix of print content flexibly in extension settings.
 * Able to output colored text in terminal by using python built-in package: `termcolor`.
 
@@ -15,7 +16,7 @@ If you find bug or have feature request, you can check out the ChangeLog to see 
 
 ## Motivation
 
-When I am learning deep learning model, I often want to know how the tensor shape changes along the way, I think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear etc` all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as I know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users, afterwards, I add more features to make it also useful for other python developer.
+When I am learning deep learning model, I often want to know how the tensor shape changes along the way, I think this will help me understand how the deep learning model works. Take pytorh for example, these operations `view，slice，concat，permute，conv，linear` etc all will change the tensor shape. Fortunately, many deep learning framework all have `.shape` attribute of tensor(as far as I know, there are pytorch, numpy, tensorflow, paddlepaddle, oneflow), so this makes the extension be useful for different deep learning framework users. Afterwards, I add more features to make it also useful for other python developers.
 
 ## Installation
 
@@ -37,7 +38,7 @@ Select the variable, then press `Ctrl+Shift+L`, it will insert print statement a
 
 ![](images/Ctl+Shift+L-selection.gif)
 
-You can also just put the cursor at the target line, then the extension will automatically recognize the variable:
+You can also just put the cursor at the target line, then the extension will automatically recognize the variable before `=` or `+=` or the unpacked variables separated by `,`:
 
 ![](images/Ctl+Shift+L-NOselection.gif)
 
@@ -113,8 +114,8 @@ To color the output text in terminal, you need to do these things:
 
 ![](images/color-text.gif)
 
-## More
-I also make a pypi package : [**printensor**](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
+## pypi package
+I also make a pypi package : [printensor](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
 
 ## Known issue
 This extension can not handle tensor that cross multiple lines, for example:

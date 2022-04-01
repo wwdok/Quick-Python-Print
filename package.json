@@ -1,8 +1,8 @@
 {
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
-    "description": "Quickly print out variable, variable type, tensor shape etc by using shortcuts",
-    "version": "0.1.6",
+    "description": "Quickly handle print operations : Insertion(include print out variable, variable type, tensor shape etc), (Un)comment, Delete by using shortcuts",
+    "version": "0.1.7",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
@@ -55,7 +55,7 @@
             },
             {
                 "command": "extension.python-print-tensor-shape",
-                "title": "Print (Pytorch，TensorFlow, PaddlePaddle, Numpy) tensor shape by default"
+                "title": "Print (Pytorch, TensorFlow, PaddlePaddle, Numpy) tensor shape by default"
             },
             {
                 "command": "extension.python-print-function",
@@ -63,7 +63,7 @@
             },
             {
                 "command": "extension.python-print-commentall",
-                "title": "Comment out all print statements in target scope"
+                "title": "Comment out all print statements in the scope"
             },
             {
                 "command": "extension.python-print-commentup",
@@ -75,7 +75,7 @@
             },
             {
                 "command": "extension.python-print-deleteall",
-                "title": "Delete all print statements in target scope"
+                "title": "Delete all print statements in the scope"
             },
             {
                 "command": "extension.python-print-delimiter",
@@ -136,10 +136,15 @@
             "type": "object",
             "title": "print configuration",
             "properties": {
-                "1.prefix": {
+                "1.1.prefix": {
                     "type": "string",
                     "default": "==>> ",
-                    "description": "prefix in the front of the print out result"
+                    "description": "prefix before the variable name"
+                },
+                "1.2.suffix": {
+                    "type": "string",
+                    "default": ":\\n",
+                    "description": "suffix after the variable name"
                 },
                 "2.attribute1": {
                     "type": "string",
