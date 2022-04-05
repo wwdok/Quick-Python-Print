@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
     "description": "Quickly handle print operations : Insertion(include print out variable, variable type, tensor shape etc), (Un)comment, Delete by using shortcuts",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
@@ -143,8 +143,8 @@
                 },
                 "1.2.suffix": {
                     "type": "string",
-                    "default": ":\\n",
-                    "description": "suffix after the variable name"
+                    "default": ": ",
+                    "description": "suffix after the variable name, e.g. :\\n"
                 },
                 "2.attribute1": {
                     "type": "string",

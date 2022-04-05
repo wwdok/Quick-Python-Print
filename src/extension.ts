@@ -69,14 +69,14 @@ async function handleInsertion(prefix:string, suffix:string, attr:string, mode:n
         let currentline = selection.start.line;
         let currentlineText = editor.document.lineAt(currentline).text;
 
-        // find the variable name in current line
-        let regexList = currentlineText.match(/\s*(.*)\s*=\s*/)  || currentlineText.match(/\s*(\w+)\s*\+=\s*/);
+        // find the variable name in current line. To avoid any possible characters inside print(), so ignore this situation
+        let regexList = currentlineText.includes("print") ? false : currentlineText.match(/\s*(.*)\s*=\s*/)  || currentlineText.match(/\s*(.*)\s*\+=\s*/);
         
         if (regexList) {
             console.log("regexList[0]:" + regexList[0]);
             console.log("regexList[1]:" + regexList[1]);
-            if (regexList[1].includes(',')){
-                // there are multiple unpakced variables
+            if (regexList[1].includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(regexList[1])) {  // the regex is to avoid regard sth like 'm[1,2]' as unpacked variable
+                // there are multiple unpakced variables1,2
                 let v_list = regexList[1].split(',');
                 for (var variableName of v_list){
                     await vscode.commands.executeCommand('editor.action.insertLineAfter')
@@ -110,7 +110,7 @@ async function handleInsertion(prefix:string, suffix:string, attr:string, mode:n
     } else {
         // With selection
         const selected_text = editor.document.getText(selection).trim();
-        if (selected_text.includes(',')){
+        if (selected_text.includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(selected_text)){
             // there are multiple unpakced variables
             let v_list = selected_text.split(',');
             for (var variableName of v_list){
@@ -331,9 +331,9 @@ export function activate(context: vscode.ExtensionContext) {
         let codeToInsert = "";
         const v:string = "";
         if (Boolean(colortext)) {
-            codeToInsert = getInsertCode(2, v, v, String(delimierLength), String(delimierSymbol), String(delimierColor));
+            codeToInsert = getInsertCode(2, v, String(delimierLength), v, String(delimierSymbol), String(delimierColor));
         } else {
-            codeToInsert = getInsertCode(2, v, v, String(delimierLength), String(delimierSymbol));
+            codeToInsert = getInsertCode(2, v, String(delimierLength), v, String(delimierSymbol));
         }
         editor.edit((editBuilder) => editBuilder.insert(selection.start, codeToInsert));
     });

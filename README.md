@@ -3,16 +3,16 @@
 ## Intro 
 This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhances some features:
 * You can put the cursor at target line, the extension will automatically recognize the variable in the line.
+* If did not recognize any variable in current line, it will just insert simply `print()` and move the cursor inside the bracket.
 * Press `Ctrl+Shift+O` to print out tensor shape by default, e.g. `print("==>> a.shape: ", a.shape)`.
 * Press `Ctrl+Shift+T` to print out variable type by default, e.g. `print("==>> type(a): ", type(a))`.
 * Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing delimiter line.
-* Move the cursor inside the bracket if insert simply `print()`.
 * Press `Ctrl+Shift+/` to comment out or uncomment all print statement inside the selection or in the file.
 * Press `Ctrl+Shift+R` to delete all print statements inside the selection or in the file.
 * Allow user to define customized prefix and suffix of print content flexibly in extension settings.
 * Able to output colored text in terminal by using python built-in package: `termcolor`.
 
-If you find bug or have feature request, you can check out the ChangeLog to see if this bug or feature had been fixed or added in latest version, if not, welcome to post in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
+If you find bug or have feature request, you can check out the ChangeLog to see if this bug or feature had been fixed or added in latest version, if not, please issue it in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
 
 ## Motivation
 
@@ -25,9 +25,9 @@ This extension is available in the Visual Studio Code Extension Marketplace, you
 
 ## How to use
 
-Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA) (When I made this video, it was version 0.1.1, and there have been many changes in the current version)
+Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA) (When I made this video, it was version 0.1.1, and there have been many changes in the current version).
 
-This extension only activates within `.py` and `.ipynb` files
+This extension only activates within `.py` and `.ipynb` files.
 
 ### Keyboard Shortcut
 For Mac user, the `Ctrl` should be `Cmd`.
@@ -60,17 +60,17 @@ If you didn't select variable or the extension can't recognize variable, it will
 
 **Ctrl+Shift+/**
 
-Comment out or uncomment the print statement in the python file or in the selected scope:
+Comment out or uncomment the print statement in the selected scope or in the python file:
 
 ![](images/Ctl+Shift+forwardslash.gif)
 
-**Ctrl+Shift+up**
+**Ctrl+Shift+Up**
 
 Comment out all print statement above the cursor in the python file:
 
 ![](images/Ctl+Shift+up.gif)
 
-**Ctrl+Shift+down**
+**Ctrl+Shift+Down**
 
 Comment out all print statement below the cursor in the python file:
 
@@ -78,13 +78,13 @@ Comment out all print statement below the cursor in the python file:
 
 **Ctrl+Shift+;**
 
-Insert a print statement that will print 50 `-` to become a delimiter like `--------------------------------------------------`:
+Insert a print statement that will print 50 `-` to form a delimiter like `--------------------------------------------------`:
 
 ![](images/Ctl+Shift+;.gif)
 
 **Ctrl+Shift+R**
 
-Delete all the print statement(include those commented) in the python file or in the selected scope::
+Delete all the print statement(include those commented) in the python file or in the selected scope:
 
 ![](images/Ctl+Shift+R.gif)
 
@@ -115,7 +115,7 @@ To color the output text in terminal, you need to do these things:
 ![](images/color-text.gif)
 
 ## pypi package
-I also make a pypi package : [printensor](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate with this extension.
+I also make a pypi package : [printensor](https://github.com/wwdok/print_tensor) to uppack tensors inside list, tuple, dict, generator, then print their tensor shape. After installing and import, you can replace `print(` with `prints(` to intergrate it with this extension.
 
 ## Known issue
 This extension can not handle tensor that cross multiple lines, for example:
@@ -123,7 +123,7 @@ This extension can not handle tensor that cross multiple lines, for example:
 a = torch.tensor([[1.0, 2.0, 3.0], 
                 [4.0, 5.0, 6.0]])
 ```
-You can use `Alt + down` to move down the inserted code.
+You can use `Alt + down` to move down the inserted print statement.
 
 ## Warning
 This uses Python 3 syntax,If you're using Python 2 print isn't a function.You can import this behavior from `__future__`:

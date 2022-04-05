@@ -42,3 +42,9 @@
 - Add the ability to recognize variables that were uppacked from tuple,list etc.
 - Change the default operation of `ctrl shift /` without selection from toggle comment to comment out all of those uncomment print statements.
 - Allow user to set customized suffix, like`:\n` by default. 
+
+## [2022/4/5]
+0.1.8
+- Fix a bug of recognizing unpacked variables.
+- Change the default suffix from `:\n` to `: `.
+- Fix a bug when pressing `Ctrl Shift ;`.
