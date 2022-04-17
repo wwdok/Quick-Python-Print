@@ -46,6 +46,8 @@ If you didn't select variable or the extension can't recognize variable, it will
 
 ![](images/Ctl+Shift+L-NOvariable.gif)
 
+If the extension recognize variable wrongly, you can manually select the variable, or report this issue in github repo.
+
 **Ctrl+Shift+O**
 
 `Ctl+Shift+O` is similar to `Ctrl+Shift+L` except that it will print tensor shape by default:

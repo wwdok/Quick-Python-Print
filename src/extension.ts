@@ -70,14 +70,15 @@ async function handleInsertion(prefix:string, suffix:string, attr:string, mode:n
         let currentlineText = editor.document.lineAt(currentline).text;
 
         // find the variable name in current line. To avoid any possible characters inside print(), so ignore this situation
-        let regexList = currentlineText.includes("print") ? false : currentlineText.match(/\s*(.*)\s*=\s*/)  || currentlineText.match(/\s*(.*)\s*\+=\s*/);
+        // use regex to match characters until the first occurrence of =, +=, -=, *=, /=, %=, **=, //=, and so on
+        let regexList = currentlineText.includes("print") ? false : currentlineText.match(/.+?(?=\=|\+=|\-=|\/=|\/\/=|\*=|\%=)/);
         
         if (regexList) {
             console.log("regexList[0]:" + regexList[0]);
             console.log("regexList[1]:" + regexList[1]);
-            if (regexList[1].includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(regexList[1])) {  // the regex is to avoid regard sth like 'm[1,2]' as unpacked variable
+            if (regexList[0].includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(regexList[0])) {  // the regex is to avoid regard sth like 'm[1,2]' as unpacked variable
                 // there are multiple unpakced variables1,2
-                let v_list = regexList[1].split(',');
+                let v_list = regexList[0].split(',');
                 for (var variableName of v_list){
                     await vscode.commands.executeCommand('editor.action.insertLineAfter')
                     .then(() => {
@@ -87,7 +88,7 @@ async function handleInsertion(prefix:string, suffix:string, attr:string, mode:n
                 }
             } else {
                 // only single variable
-                let variableName = regexList[1].trim();
+                let variableName = regexList[0].trim();
                 vscode.commands.executeCommand('editor.action.insertLineAfter')
                 .then(() => {
                     const codeToInsert = getInsertCode(mode, variableName, prefix, suffix, attr, color);

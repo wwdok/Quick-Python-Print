@@ -48,3 +48,7 @@
 - Fix a bug of recognizing unpacked variables.
 - Change the default suffix from `:\n` to `: `.
 - Fix a bug when pressing `Ctrl Shift ;`.
+
+## [2022/4/9]
+0.1.9
+- Fix a bug of recognizing variable when there are multiple `=` in a line.
