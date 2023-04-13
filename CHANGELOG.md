@@ -52,3 +52,7 @@
 ## [2022/4/9]
 0.1.9
 - Fix a bug of recognizing variable when there are multiple `=` in a line.
+
+## [2023/4/13]
+0.2.0
+- Use the "[formatted string literals](https://docs.python.org/3/whatsnew/3.6.html#pep-498-formatted-string-literals)" feature introduced since python 3.6.

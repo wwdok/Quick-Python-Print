@@ -1,11 +1,11 @@
 # Quick Python Print
 
 ## Intro 
-This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhances some features:
+This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables like `print(f"==>> a: {a}")` on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" enhances some features:
 * You can put the cursor at target line, the extension will automatically recognize the variable in the line.
 * If did not recognize any variable in current line, it will just insert simply `print()` and move the cursor inside the bracket.
-* Press `Ctrl+Shift+O` to print out tensor shape by default, e.g. `print("==>> a.shape: ", a.shape)`.
-* Press `Ctrl+Shift+T` to print out variable type by default, e.g. `print("==>> type(a): ", type(a))`.
+* Press `Ctrl+Shift+O` to print out tensor shape by default, e.g. `print(f"==>> a.shape: {a.shape}")`.
+* Press `Ctrl+Shift+T` to print out variable type by default, e.g. `print(f"==>> type(a): {type(a)}")`.
 * Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing delimiter line.
 * Press `Ctrl+Shift+/` to comment out or uncomment all print statement inside the selection or in the file.
 * Press `Ctrl+Shift+R` to delete all print statements inside the selection or in the file.
@@ -21,6 +21,9 @@ When I am learning deep learning model, I often want to know how the tensor shap
 ## Installation
 
 Before installation, make sure your vscode version ≥ 1.57.0.
+Because version 0.2.0 use the "[formatted string literals](https://docs.python.org/3/whatsnew/3.6.html#pep-498-formatted-string-literals)" feature introduced since python 3.6, if your python version < 3.6, you can install previous version (e.g. 0.1.9) by:
+![](images/installAnotherVersion.png)
+
 This extension is available in the Visual Studio Code Extension Marketplace, you can search "Quick-Python-Print" and install it.
 
 ## How to use
@@ -30,7 +33,10 @@ Introduction video: [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) | [Y
 This extension only activates within `.py` and `.ipynb` files.
 
 ### Keyboard Shortcut
+
 For Mac user, the `Ctrl` should be `Cmd`.
+
+**Note : From version 0.2.0, the inserted code will be a little different, the inserted code will be `print(f"==>> a: {a}")` instead of `print("==>> a: ", a)`.**
 
 **Ctrl+Shift+L**
 
@@ -97,6 +103,12 @@ Many deep learning framework all have `.shape` attribute of tensor:
 ![](images/execution.gif)
 
 If any of these shortcuts conflicts with existing shortcut, you may change it in the `Keyboard Shortcuts Setting`: Press `Cmd+P` or `Ctrl+P` and type in `>Open Keyboard Shortcuts`. Search for the conflict shortcut, then you will find those shortcut using the same keys, then right click one of them, modify or delete keybinding.
+
+**Compatibility with other print function**
+
+Some people have the demand to use other print function like loguru's `logger.debug` or logging's `logger.debug` instead of `print`, to achieve this, there is a workaround, that is define a alias name for customized print function, e.g. here is `print = logger.debug`, you can find the discussion in this [issue](https://github.com/wwdok/Quick-Python-Print/issues/2).
+
+![](images/function_alias.png)
 
 ### Extension Settings
 

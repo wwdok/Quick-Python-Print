@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
     "description": "Quickly handle print operations : Insertion(include print out variable, variable type, tensor shape etc), (Un)comment, Delete by using shortcuts",
-    "version": "0.1.9",
+    "version": "0.2.0",
     "publisher": "WeidaWang",
     "author": {
         "name": "Weida Wang"
@@ -212,8 +212,12 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
+        "@vscode/test-electron": "^2.3.0",
 		"@types/vscode": "^1.57.0",
 		"@types/node": "14.x",
+        "@types/jest": "^29.4.0",
+        "@types/mocha": "^10.0.1",
+        "@types/glob": "^8.1.0",
 		"@typescript-eslint/eslint-plugin": "^5.9.1",
 		"@typescript-eslint/parser": "^5.9.1",
 		"eslint": "^8.6.0",

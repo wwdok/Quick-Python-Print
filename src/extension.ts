@@ -5,15 +5,19 @@ function getInsertCode(mode:number, variableName:string, prefix:string, suffix:s
     let codeToInsert = '';
     if (mode === 0) {
         if(color) {
-            codeToInsert = `print(colored("${prefix}${variableName}${attr}${suffix}", "${color}"), ${variableName}${attr})`;
+            // codeToInsert = `print(colored("${prefix}${variableName}${attr}${suffix}", "${color}"), ${variableName}${attr})`;
+            codeToInsert = `print(colored(f"${prefix}${variableName}${attr}${suffix}{${variableName}${attr}}", "${color}"))`;
         } else {
-            codeToInsert = `print("${prefix}${variableName}${attr}${suffix}", ${variableName}${attr})`;
+            // codeToInsert = `print("${prefix}${variableName}${attr}${suffix}", ${variableName}${attr})`;
+            codeToInsert = `print(f"${prefix}${variableName}${attr}${suffix}{${variableName}${attr}}")`;
         }
     } else if (mode === 1) {
         if(color) {
-            codeToInsert = `print(colored("${prefix}${attr}(${variableName})${suffix}", "${color}"), ${attr}(${variableName}))`;
+            // codeToInsert = `print(colored("${prefix}${attr}(${variableName})${suffix}", "${color}"), ${attr}(${variableName}))`;
+            codeToInsert = `print(colored(f"${prefix}${attr}(${variableName})${suffix}{${attr}(${variableName})}", "${color}"))`;
         } else {
-            codeToInsert = `print("${prefix}${attr}(${variableName})${suffix}", ${attr}(${variableName}))`;
+            // codeToInsert = `print("${prefix}${attr}(${variableName})${suffix}", ${attr}(${variableName}))`;
+            codeToInsert = `print(f"${prefix}${attr}(${variableName})${suffix}{${attr}(${variableName})}")`;
         }
     }
     else if (mode === 2) {
