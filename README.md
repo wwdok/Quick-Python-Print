@@ -21,7 +21,7 @@ When I am learning deep learning model, I often want to know how the tensor shap
 ## Installation
 
 Before installation, make sure your vscode version ≥ 1.57.0.
-Because version 0.2.0 use the "[formatted string literals](https://docs.python.org/3/whatsnew/3.6.html#pep-498-formatted-string-literals)" feature introduced since python 3.6, if your python version < 3.6, you can install previous version (e.g. 0.1.9) by:
+Because since version 0.2.0 which use the "[formatted string literals](https://docs.python.org/3/whatsnew/3.6.html#pep-498-formatted-string-literals)" feature introduced since python 3.6, if your python version < 3.6, you can install previous version (e.g. 0.1.9) by:
 
 ![](images/installAnotherVersion.png)
 
