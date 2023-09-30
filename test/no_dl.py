@@ -1,4 +1,4 @@
-"""测试一些跟深度学习框架无关的特性"""
+"""test some features that are irrelevant to deep learning framework"""
 from termcolor import colored
 a, b = (1,2)
 

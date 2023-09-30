@@ -56,3 +56,12 @@
 ## [2023/4/13]
 0.2.0
 - Use the "[formatted string literals](https://docs.python.org/3/whatsnew/3.6.html#pep-498-formatted-string-literals)" feature introduced since python 3.6.
+
+## [2023/4/14]
+0.2.1
+- Update README.md
+
+## [2023/10/1]
+0.3.0
+-  To support python built-in `logging`, `loguru`, `pprint` more friendly, now users can set the print funtion and option of wheather to use formatted string.
+-  Fix bug of toggle comment out when selection is empty

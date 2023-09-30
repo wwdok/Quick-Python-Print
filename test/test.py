@@ -1,5 +1,6 @@
 import torch
 from termcolor import colored
+from pprint import pprint
 
 features = []
 features.append(torch.randn(2, 3))
@@ -23,7 +24,7 @@ print(colored("".center(50, "-"), "magenta"))
 
 #测试与loguru的兼容
 from loguru import logger
-print = logger.debug
+# print = logger.debug
 print(f"==>> in_coord_ceilX.shape: {in_coord_ceilX.shape}")
 print(f"That's it, beautiful and simple logging!")
 print(f"If you're using Python {3.6}, prefer {'f-strings'} of course!")

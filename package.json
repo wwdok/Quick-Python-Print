@@ -1,7 +1,7 @@
 {
 	"name": "quick-python-print",
     "displayName": "Quick-Python-Print",
-    "description": "Quickly handle print operations : Insertion(include print out variable, variable type, tensor shape etc), (Un)comment, Delete by using shortcuts",
+    "description": "Quickly handle print operations : Insertion(include print out variable, its attribute and function etc), (Un)comment, Delete by using shortcuts",
     "version": "0.2.1",
     "publisher": "WeidaWang",
     "author": {
@@ -134,67 +134,77 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "print configuration",
+            "title": "quick python print configuration",
             "properties": {
-                "1.1.prefix": {
+                "0.print function": {
+                    "type": "string",
+                    "default": "print",
+                    "description": "use the python built-in print function by default, you can change it to `logger.debug` or `pprint` etc,"
+                },
+                "1.enable formatted string": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "if disable this checkbox, the inserted code will simply be `print(variable)`, and the following settings will not take effect"
+                },
+                "2.prefix": {
                     "type": "string",
                     "default": "==>> ",
                     "description": "prefix before the variable name"
                 },
-                "1.2.suffix": {
+                "3.suffix": {
                     "type": "string",
                     "default": ": ",
                     "description": "suffix after the variable name, e.g. :\\n"
                 },
-                "2.attribute1": {
+                "4.1.attribute1": {
                     "type": "string",
                     "default": "",
                     "description": "variable attribute for Ctrl+Shift+L shortcut"
                 },
-                "3.attribute2": {
+                "4.2.attribute2": {
                     "type": "string",
                     "default": ".shape",
                     "description": "variable attribute for Ctrl+Shift+O shortcut"
                 },
-                "4.function": {
+                "5.function": {
                     "type": "string",
                     "default": "type",
                     "description": "funtion that can pass in variable for Ctrl+Shift+T shortcut"
                 },
-                "5.1.enable colored output text": {
+                "6.1.enable colored output text": {
                     "type": "boolean",
                     "default": false,
                     "description": "whether to enable color output text."
                 },
-                "5.2.color for ctrl shift l": {
+                "6.2.color for ctrl shift l": {
                     "type": "string",
                     "default": "green",
                     "description": "color of output text for Ctrl+Shift+L shortcut",
                     "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
                 },
-                "5.3.color for ctrl shift o": {
+                "6.3.color for ctrl shift o": {
                     "type": "string",
                     "default": "yellow",
                     "description": "color of output text for Ctrl+Shift+O shortcut",
                     "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
                 },
-                "5.4.color for ctrl shift t": {
+                "6.4.color for ctrl shift t": {
                     "type": "string",
                     "default": "blue",
                     "description": "color of output text for Ctrl+Shift+T shortcut",
                     "enum": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
                 },
-                "6.1.delimiter symbol for ctrl shift ;": {
+                "7.1.delimiter symbol for ctrl shift ;": {
                     "type": "string",
                     "default": "-",
                     "description": "delimiter symbol for Ctrl+Shift+; shortcut"
                 },
-                "6.2.delimiter length for ctrl shift ;": {
+                "7.2.delimiter length for ctrl shift ;": {
                     "type": "number",
                     "default": 50,
                     "description": "number of delimiter symbol for Ctrl+Shift+; shortcut"
                 },
-                "6.3.delimiter color for ctrl shift ;": {
+                "7.3.delimiter color for ctrl shift ;": {
                     "type": "string",
                     "default": "white",
                     "description": "color of output text for Ctrl+Shift+; shortcut",
