@@ -6,6 +6,9 @@
     </div>
 </div>
 
+[![version number](https://img.shields.io/visual-studio-marketplace/v/WeidaWang.quick-python-print)](https://marketplace.visualstudio.com/items?itemName=WeidaWang.quick-python-print)
+[![install count](https://img.shields.io/visual-studio-marketplace/i/WeidaWang.quick-python-print)](https://marketplace.visualstudio.com/items?itemName=WeidaWang.quick-python-print)
+
 ## 📢Introduction
 This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables like `print(f"==>> a: {a}")` on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" adds some more features:  
 ✨ You can put the cursor at target line, the extension will **automatically recognize** the variable in the line.  
@@ -155,7 +158,7 @@ This extension uses Python 3 syntax, if you're using Python 2 print isn't a func
 `from __future__ import print_function`
 
 ## 💗Donation
-If you find this extension can help you save time, and willing to donate me, i would be very grateful ! ❤
+If you find this extension can help you save time, and willing to donate me, I would be very grateful ! ❤
 
 🥤[Buy me a Coca-Cola](https://ko-fi.com/weidawang) 
 
