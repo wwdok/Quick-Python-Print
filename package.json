@@ -2,7 +2,7 @@
 	"name": "quick-python-print",
 	"displayName": "Quick-Python-Print",
 	"description": "Quickly handle print operations : Insertion(include print out variable, its attribute and function etc), (Un)comment, Delete by using shortcuts",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"publisher": "WeidaWang",
 	"author": {
 		"name": "Weida Wang"

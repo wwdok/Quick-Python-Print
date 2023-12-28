@@ -17,13 +17,14 @@ This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/
 ✨ Press `Ctrl+Shift+O` to **print attribute of variable**, here is tensor shape by default, e.g. `print(f"==>> a.shape: {a.shape}")`.  
 ✨ Press `Ctrl+Shift+T` to **print function of variable**, here is type by default, e.g. `print(f"==>> type(a): {type(a)}")`.  
 ✨ Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing **delimiter line**.  
-✨ Press `Ctrl+Shift+/` to **comment out or uncomment** all print statement inside the selection or in the file.  
+✨ Press `Ctrl+Shift+/` to **comment out or uncomment** all print statements inside the selection or in the file.  
 ✨ Press `Ctrl+Shift+R` to **delete** all print statements inside the selection or in the file.  
 ✨ Support users to define **customized print function** like `logger.debug`, `pprint`  other than origianl `print`.  
 ✨ Support users to define **customized prefix and suffix** of print content flexibly in extension settings.  
+✨ Support printing **multiple variables separated by `,` in one line and multiple variables in multiple lines together**.  
 ✨ Able to **output colored text** in terminal by using python built-in package: `termcolor`. 
 
-If you find bug or have feature request, you can check out the [ChangeLog](CHANGELOG.md) to see if this bug or feature had been fixed or added in latest version, if not, please issue it in this extension's [github repo](https://github.com/wwdok/Quick-Python-Print).
+If you find a bug or have feature request, you can check out the [ChangeLog](CHANGELOG.md) to see if this bug or feature had been fixed or added in the latest version, if not, please issue it in this extension's GitHub[ repo](https://github.com/wwdok/Quick-Python-Print).
 
 ## 🌟Motivation
 
@@ -41,7 +42,7 @@ This extension is available in the Visual Studio Code Extension Marketplace, you
 
 ## ✋How to use
 
-Introduction video : [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA) | [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) (When I made this video, it was version 0.1.1, and there have been many changes in the current version).
+Introduction video (Chinese speech with English subtitles): [Youtube](https://www.youtube.com/watch?v=w5cd_8lzylA) | [Bilibili](https://www.bilibili.com/video/BV1hY411V7bi) (When I made this video, it was version 0.1.1, and there have been many changes in the current version).
 
 This extension only activates within `.py` and `.ipynb` files.
 
@@ -57,15 +58,20 @@ Select the variable, then press `Ctrl+Shift+L`, it will insert print statement a
 
 ![](images/Ctl+Shift+L-selection.gif)
 
-You can also just put the cursor at the target line, then the extension will automatically recognize the variable before `=` or `+=` or the unpacked variables separated by `,`:
+You can also just put the cursor at the target line, then the extension will **automatically recognize** the variable that before `=`, `+=`, `-=`, `/=`, `//=`, `*=`, `%=`:
 
 ![](images/Ctl+Shift+L-NOselection.gif)
 
-If you didn't select variable or the extension can't recognize variable, it will just insert simply print() and move the cursor inside it. If selected variable is new defined for the first time, insert code at current line :
+This extension can also handle some little complicated cases, such as **unpacked variables separated by `,`**, and **print multiple variables in multiple lines together**:
+
+![](<images/Multiple variables.gif>)
+
+If you didn't select variable or the extension can't recognize variable, it will simply insert `print()` and move the cursor inside it.   
+If the selected content is exactly the content of the entire line, it will treat the selected content as a variable and insert code at the current line :
 
 ![](images/Ctl+Shift+L-NOvariable.gif)
 
-If the extension recognize variable wrongly, you can manually select the variable, or report this issue in github repo.
+If the extension recognizes the variable wrongly, you can manually select the variable, or report this issue in GitHub repo.
 
 **Ctrl+Shift+O**
 

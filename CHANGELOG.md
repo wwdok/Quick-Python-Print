@@ -65,3 +65,7 @@
 0.3.0
 -  To support python built-in `logging`, `loguru`, `pprint` more friendly, now users can set the print funtion and option of wheather to use formatted string.
 -  Fix bug of toggle comment out when selection is empty
+
+## [2023/12/28]
+0.3.1
+-  Support select multiple lines, then process them one by one automatically.

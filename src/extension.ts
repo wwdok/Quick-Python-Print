@@ -30,20 +30,24 @@ function getInsertCode(printfunction:string, usefstring:boolean, mode:number, va
     return codeToInsert;
 }
 
-let insertText = (text: string, moveCursor?: boolean) => {
+let insertCode = (text: string, moveCursor?: boolean) => {
     let editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showErrorMessage('Can\'t insert print() because no python file is opened or cursor is not focused');
-        return;
-    }
     let selection = editor.selection;
-
+    // console.log("selection.start Position:"+selection.start.line+","+selection.start.character);
     editor.edit((editBuilder) => editBuilder.insert(selection.start, text)).then(() => {
       if (moveCursor) {
         // After editBuilder.insert(), the cursor have moved to the end of line, then move the cursor to the destination position
         vscode.commands.executeCommand('cursorMove', { to: 'left' });
       }
     });
+};
+
+async function insertCodeInNewLine(printfunction:string, usefstring:boolean, mode:number, variableName:string, prefix:string, suffix:string, attr:string, color?:string){
+    vscode.commands.executeCommand('editor.action.insertLineAfter')
+        .then(() => {
+            const codeToInsert = getInsertCode(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
+            insertCode(codeToInsert);
+        });
 };
 
 async function handleInsertion(printfunction:string, usefstring:boolean, prefix:string, suffix:string, attr:string, mode:number, color?:string) {
@@ -60,70 +64,97 @@ async function handleInsertion(printfunction:string, usefstring:boolean, prefix:
         let currentlineText = editor.document.lineAt(currentline).text;
 
         // find the variable name in current line. To avoid any possible characters inside print(), so ignore this situation
-        // use regex to match characters until the first occurrence of =, +=, -=, *=, /=, %=, **=, //=, and so on
+        // use regex to match characters until the first occurrence of =, +=, -=, /=, //=, *=, %= and so on
         let regexList = currentlineText.includes("print") ? false : currentlineText.match(/.+?(?=\=|\+=|\-=|\/=|\/\/=|\*=|\%=)/);
         
         if (regexList) {
-            console.log("regexList[0]:" + regexList[0]);
-            console.log("regexList[1]:" + regexList[1]);
+            // console.log("regexList[0]:" + regexList[0]);
             if (regexList[0].includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(regexList[0])) {  // the regex is to avoid regard sth like 'm[1,2]' as unpacked variable
                 // there are multiple unpakced variables
                 let v_list = regexList[0].split(',');
                 for (var variableName of v_list){
+                    // await insertCodeInNewLine(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
                     await vscode.commands.executeCommand('editor.action.insertLineAfter')
                     .then(() => {
                         const codeToInsert = getInsertCode(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
-                        insertText(codeToInsert);
+                        insertCode(codeToInsert);
                     });
                 }
             } else {
                 // only single variable
                 let variableName = regexList[0].trim();
-                vscode.commands.executeCommand('editor.action.insertLineAfter')
-                .then(() => {
-                    const codeToInsert = getInsertCode(printfunction, usefstring, mode, variableName, prefix, suffix, attr, color);
-                    insertText(codeToInsert);
-                });
+                await insertCodeInNewLine(printfunction, usefstring, mode, variableName, prefix, suffix, attr, color);
             }
-
         } else {
-            // Not find variable, then just insert print() 
-            // if current line is not empty, insert at next line, or just insert in current line
+            // Not find variable, then just insert print(), if current line is not empty, insert at next line, or just insert in current line
             if (currentlineText.trim()) {
                 vscode.commands.executeCommand('editor.action.insertLineAfter')
                 .then(() => {
-                    insertText('print()', true);
+                    insertCode('print()', true);
                 });
             } else {
-                insertText('print()', true);
+                insertCode('print()', true);
             }
         }
-    } else {
-        // With selection
+    } else {// With selection
         const selected_text = editor.document.getText(selection).trim();
-        if (selected_text.includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(selected_text)){
-            // there are multiple unpakced variables
-            let v_list = selected_text.split(',');
-            for (var variableName of v_list){
-                await vscode.commands.executeCommand('editor.action.insertLineAfter')
-                .then(() => {
-                    const codeToInsert = getInsertCode(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
-                    insertText(codeToInsert);
-                });
+        const isMultipleLines = selected_text.includes('\n');
+        // if yes, separate each line and handle each line
+        if (isMultipleLines) {
+            const lines = selected_text.split('\n');
+            // get the position at the end of selection
+            const endLine = Math.max(selection.start.line, selection.end.line);
+            const endCharacter = editor.document.lineAt(endLine).range.end.character;
+            const newPosition = new vscode.Position(endLine, endCharacter);
+            // move cursor to the newPosition
+            vscode.window.activeTextEditor.selection = new vscode.Selection(newPosition, newPosition);
+
+            for (const currentlineText of lines) {
+                // Handle each line here, similar to above `if (regexList) {...}` code block
+                let regexList = currentlineText.includes("print") ? "" : currentlineText.match(/.+?(?=\=|\+=|\-=|\/=|\/\/=|\*=|\%=)/);
+                let firstMatch = regexList ? regexList[0].trim() : "";
+                if (firstMatch.includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(firstMatch)) {  // the regex is to avoid regard sth like 'm[1,2]' as unpacked variable
+                    // there are multiple unpakced variables
+                    let v_list = firstMatch.split(',');
+                    for (var variableName of v_list){
+                        // await insertCodeInNewLine(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
+                        await vscode.commands.executeCommand('editor.action.insertLineAfter')
+                        .then(() => {
+                            const codeToInsert = getInsertCode(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
+                            insertCode(codeToInsert);
+                        });
+                    }
+                } else if(firstMatch){// else if firstMatch is not empty which means match single variable
+                    // await insertCodeInNewLine(printfunction, usefstring, mode, firstMatch, prefix, suffix, attr, color);
+                    // above code does not work if execute multiple times in a for loop
+                    await vscode.commands.executeCommand('editor.action.insertLineAfter')
+                    .then(() => {
+                        const codeToInsert = getInsertCode(printfunction, usefstring, mode, firstMatch, prefix, suffix, attr, color);
+                        insertCode(codeToInsert);
+                    });
+                }
             }
-        } else {
-            const linecontent = editor.document.lineAt(selection.start.line).text.trim();
-            // If selected variable is new defined for the first time, insert code at current line, or insert at next line
-            if(selected_text === linecontent) {
-                const codeToInsert = getInsertCode(printfunction, usefstring, mode, selected_text, prefix, suffix, attr, color);
-                // to achieve insert in current line, just replace the selected text with codeToInsert
-                editor.edit((editBuilder) => editBuilder.replace(selection, codeToInsert));
+        } else {// Handle single line
+            if (selected_text.includes(',') && /^[A-Za-z0-9_,\.\s]+$/.test(selected_text)){
+                // there are multiple unpakced variables
+                let v_list = selected_text.split(',');
+                for (var variableName of v_list){
+                    // await insertCodeInNewLine(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
+                    await vscode.commands.executeCommand('editor.action.insertLineAfter')
+                    .then(() => {
+                        const codeToInsert = getInsertCode(printfunction, usefstring, mode, variableName.trim(), prefix, suffix, attr, color);
+                        insertCode(codeToInsert);
+                    });
+                }
             } else {
-                vscode.commands.executeCommand('editor.action.insertLineAfter')
-                .then(() => {
+                const linecontent = editor.document.lineAt(selection.start.line).text.trim();
+                // If the selected content is exactly the content of the entire line, it will treat the selected content as a variable and insert code at the current line, or insert at next line
+                if(selected_text === linecontent) {
                     const codeToInsert = getInsertCode(printfunction, usefstring, mode, selected_text, prefix, suffix, attr, color);
-                    insertText(codeToInsert);
-                });
+                    editor.edit((editBuilder) => editBuilder.replace(selection, codeToInsert));
+                } else {
+                    await insertCodeInNewLine(printfunction, usefstring, mode, selected_text, prefix, suffix, attr, color);
+                }
             }
         }
     }
