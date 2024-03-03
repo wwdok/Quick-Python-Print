@@ -68,4 +68,4 @@
 
 ## [2023/12/28]
 0.3.1
--  Support select multiple lines, then process them one by one automatically.
+-  Support select multiple lines, then process their variables one by one automatically.

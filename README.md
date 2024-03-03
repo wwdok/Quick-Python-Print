@@ -11,18 +11,18 @@
 [![download count](https://img.shields.io/visual-studio-marketplace/d/WeidaWang.quick-python-print)](https://marketplace.visualstudio.com/items?itemName=WeidaWang.quick-python-print)
 
 ## 📢Introduction
-This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables like `print(f"==>> a: {a}")` on the console by using shortcut `Ctrl+Shift+L`, while "Quick Python Print" adds some more features:  
+This extension is inspired by "[Python Quick Print](https://github.com/AhadCove/Python-Quick-Print)". "Python Quick Print" can quickly print out variables like `print(f"==>> a: {a}")` on the terminal by using keyboard shortcut `Ctrl+Shift+L`, while this extension "Quick Python Print" adds some more features:  
 ✨ You can put the cursor at target line, the extension will **automatically recognize** the variable in the line.  
 ✨ If did not recognize any variable in current line, it will just **insert simply** `print()` and move the cursor inside the bracket.  
-✨ Press `Ctrl+Shift+O` to **print attribute of variable**, here is tensor shape by default, e.g. `print(f"==>> a.shape: {a.shape}")`.  
-✨ Press `Ctrl+Shift+T` to **print function of variable**, here is type by default, e.g. `print(f"==>> type(a): {type(a)}")`.  
+✨ Press `Ctrl+Shift+O` to **print attribute of variable**, here is tensor `shape` by default, e.g. `print(f"==>> a.shape: {a.shape}")`.  
+✨ Press `Ctrl+Shift+T` to **print function of variable**, here is `type` by default, e.g. `print(f"==>> type(a): {type(a)}")`.  
 ✨ Press `Ctrl+Shift+;` to insert `print("".center(50, "-"))` used for printing **delimiter line**.  
 ✨ Press `Ctrl+Shift+/` to **comment out or uncomment** all print statements inside the selection or in the file.  
 ✨ Press `Ctrl+Shift+R` to **delete** all print statements inside the selection or in the file.  
 ✨ Support users to define **customized print function** like `logger.debug`, `pprint`  other than origianl `print`.  
 ✨ Support users to define **customized prefix and suffix** of print content flexibly in extension settings.  
 ✨ Support printing **multiple variables separated by `,` in one line and multiple variables in multiple lines together**.  
-✨ Able to **output colored text** in terminal by using python built-in package: `termcolor`. 
+✨ Able to **output colored text** in terminal by using python built-in package: `termcolor`.  
 
 If you find a bug or have feature request, you can check out the [ChangeLog](CHANGELOG.md) to see if this bug or feature had been fixed or added in the latest version, if not, please issue it in this extension's GitHub[ repo](https://github.com/wwdok/Quick-Python-Print).
 
@@ -64,7 +64,7 @@ You can also just put the cursor at the target line, then the extension will **a
 
 This extension can also handle some little complicated cases, such as **unpacked variables separated by `,`**, and **print multiple variables in multiple lines together**:
 
-![](<images/Multiple variables.gif>)
+![](images/Multiple_variables.gif)
 
 If you didn't select variable or the extension can't recognize variable, it will simply insert `print()` and move the cursor inside it.   
 If the selected content is exactly the content of the entire line, it will treat the selected content as a variable and insert code at the current line :
@@ -169,7 +169,7 @@ If you find this extension can help you save time, and willing to donate me, I w
 
 🥤[Buy me a Coca-Cola](https://ko-fi.com/weidawang) 
 
-![](images/donation.png)
+<img src="images/donation.png" alt="donation.png" width="400"/>
 
 ## 📃License
 MIT License
